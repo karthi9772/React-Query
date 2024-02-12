@@ -18,10 +18,12 @@ export const PostList = () => {
       {postData?.map((post) => {
         return (
           <div key={post.id} className="post">
-            <div>
-              {post.title}
-              {post.views}
-            </div>
+            <div>{post.title}</div>
+            {post.tags?.map((tag) => (
+              <span className="tags" key={tag}>
+                {tag}
+              </span>
+            ))}
           </div>
         );
       })}
