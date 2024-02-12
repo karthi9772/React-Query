@@ -16,3 +16,8 @@ const response=await fetch("http://localhost:3000/posts",{
 })
 return response.json();
 }
+export const Fetchtags=async ()=>{
+    const res=await fetch("http://localhost:3000/tags");
+    const tagsData=await res.json()
+return tagsData
+}
