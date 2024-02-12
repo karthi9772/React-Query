@@ -15,28 +15,40 @@ export const PostList = () => {
     queryKey: ["tags"],
     queryFn: Fetchtags,
   });
-  //   const {
-  //     mutate,
-  //     isPending,
-  //     isSuccess,
-  //     isError: isPostError,
-  //     error: posterror,
-  //     reset,
-  //   } = useMutation({
-  //     mutationFn: addPost,
-  //   });
+  const {
+    mutate,
+    isPending,
+    isSuccess,
+    isError: isPostError,
+    error: posterror,
+    reset,
+  } = useMutation({
+    mutationFn: addPost,
+  });
 
-  const submitFn = () => {
-    console.log("Posted");
+  const submitFn = (e) => {
+    e.preventDefault();
+    const formdata = new FormData(e.target);
+    const title = formdata.get("title");
+    const tags = Array.from(formdata.keys()).filter(
+      (key) => formdata.get(key) === "on"
+    );
+    if (!title || !tags) return;
+
+    mutate({ id: postData.length + 1, title, tags });
+    console.log(title);
+    console.log(tags);
+    e.target.reset();
   };
 
   return (
     <div className="container">
-      <form>
+      <form onSubmit={submitFn}>
         <input
           type="text"
           placeholder="Enter the new post..."
           className="postbox"
+          name="title"
         ></input>
         <div className="tags">
           {tagsdata?.map((tag) => {
@@ -48,9 +60,7 @@ export const PostList = () => {
             );
           })}
         </div>
-        <button className="post" onSubmit={submitFn}>
-          Post
-        </button>
+        <button className="post">Post</button>
       </form>
       {isLoading && <h1>loading</h1>}
       {isError && <h1>{error?.message}</h1>}

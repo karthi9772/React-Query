@@ -1,7 +1,7 @@
 export const FetchPosts=async ()=>{
     const res=await fetch("http://localhost:3000/posts?_sort=-id");
     const postData=await res.json()
-    console.log(postData);
+    // console.log(postData);
     return postData;
 
 }
